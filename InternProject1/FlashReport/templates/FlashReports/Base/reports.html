@@ -1,0 +1,20 @@
+{% extends "FlashReports/Base/base.html" %}
+{% block title %}Rapport d'observations de sécurité{% endblock %}
+
+{% block content %}
+
+  <div class="mb-5">
+
+    <h1 class="display-6 fw-bold">
+        Rapport d'observations de sécurité
+    </h1>
+
+    <p class="text-muted">
+        Signaler les observations et suivez leur état de résolution!
+    </p>
+
+  </div>
+
+  {% include "FlashReports/incidents/reports_form.html" %}
+  
+{% endblock %}

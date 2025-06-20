@@ -1,0 +1,151 @@
+{% load static %}
+{% url 'home' as home_url %}
+{% url 'Stats' as Stats_url %}
+{% url 'reports' as reports_url %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlashReport - Stats</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <a href="{{ home_url }}" class="flex items-center space-x-2">
+                    <div class="bg-blue-600 text-white p-2 rounded-lg">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-bold text-gray-900">FlashReport</span>
+                </a>
+
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="{{ home_url }}" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                    <a href="{{ Stats_url }}" class="text-blue-600 bg-blue-50 px-3 py-2 rounded-md text-sm font-medium">Stats</a>
+                    <a href="{{ reports_url }}" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Reports</a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button class="text-gray-600">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="min-h-screen bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-900">Statistics Dashboard</h1>
+                <p class="text-gray-600 mt-2">Monitor incident reports and data center performance metrics</p>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-lg shadow-sm border">
+                    <div class="p-6">
+                        <div class="text-sm font-medium text-gray-600 mb-2">Total Reports</div>
+                        <div class="flex items-center justify-between">
+                            <div class="text-2xl font-bold text-gray-900">{{ total_reports|default:0 }}</div>
+                            <span class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded">--</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">This month</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm border">
+                    <div class="p-6">
+                        <div class="text-sm font-medium text-gray-600 mb-2">Resolved Issues</div>
+                        <div class="flex items-center justify-between">
+                            <div class="text-2xl font-bold text-gray-900">{{ resolved_reports|default:0 }}</div>
+                            <span class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded">--</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">This month</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm border">
+                    <div class="p-6">
+                        <div class="text-sm font-medium text-gray-600 mb-2">Average Response Time</div>
+                        <div class="flex items-center justify-between">
+                            <div class="text-2xl font-bold text-gray-900">{{ avg_response_time|default:"--" }}</div>
+                            <span class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded">--</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">This month</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm border">
+                    <div class="p-6">
+                        <div class="text-sm font-medium text-gray-600 mb-2">Critical Issues</div>
+                        <div class="flex items-center justify-between">
+                            <div class="text-2xl font-bold text-gray-900">{{ critical_reports|default:0 }}</div>
+                            <span class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded">--</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">This month</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Reports -->
+            <div class="bg-white rounded-lg shadow-sm border">
+                <div class="p-6 border-b">
+                    <h3 class="text-lg font-semibold text-gray-900">Recent Reports</h3>
+                    <p class="text-sm text-gray-600">Latest incident reports from the data center</p>
+                </div>
+                <div class="p-6">
+                    {% if recent_reports %}
+                        <div class="space-y-4">
+                            {% for report in recent_reports %}
+                            <div class="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <span class="font-mono text-sm text-blue-600">FR-{{ report.id }}</span>
+                                        <span class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded-full">{{ report.incident_type|title }}</span>
+                                        <span class="{% if report.severity == 'critical' %}bg-red-100 text-red-800{% elif report.severity == 'high' %}bg-orange-100 text-orange-800{% elif report.severity == 'medium' %}bg-yellow-100 text-yellow-800{% else %}bg-green-100 text-green-800{% endif %} text-xs font-medium px-2.5 py-0.5 rounded-full">{{ report.severity|title }}</span>
+                                    </div>
+                                    <p class="text-gray-900 font-medium mb-1">{{ report.description|truncatewords:10 }}</p>
+                                    <p class="text-sm text-gray-500">{{ report.created_at|date:"Y-m-d" }}</p>
+                                </div>
+                                <div class="text-right">
+                                    <span class="{% if report.status == 'resolved' %}bg-green-100 text-green-800{% elif report.status == 'in_progress' %}bg-blue-100 text-blue-800{% else %}bg-gray-100 text-gray-800{% endif %} text-xs font-medium px-2.5 py-0.5 rounded-full">{{ report.get_status_display }}</span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-12">
+                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                            </svg>
+                            <h3 class="mt-2 text-sm font-medium text-gray-900">No reports yet</h3>
+                            <p class="mt-1 text-sm text-gray-500">Get started by creating your first incident report.</p>
+                            <div class="mt-6">
+                                <a href="{{ reports_url }}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                                    <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                    </svg>
+                                    Create Report
+                                </a>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

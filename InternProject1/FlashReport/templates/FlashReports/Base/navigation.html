@@ -1,0 +1,41 @@
+
+<nav class="navbar navbar-expand-md navbar-light bg-white border-bottom shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center" href="{{ home_url }}">
+      <div class="bg-primary text-white p-2 rounded">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-lightning" viewBox="0 0 16 16">
+          <path d="M11.3 1L1 8h5v7l10-7h-5V1z"/>
+        </svg>
+      </div>
+      <span class="ms-2 fw-bold">Rapport d'observations de sécurité</span>
+    </a>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarMenu">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="{{ home_url }}">Accueil</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ stats_url }}">Statistiques</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ reports_url }}">Signaler</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ incidents_list_url }}">Liste d'observations</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Se connecter</a></li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="settingsDropdown" role="button" data-bs-toggle="dropdown">
+            Paramètres
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="{{ zones_list_url }}">Liste des Zones</a></li>
+            <li><a class="dropdown-item" href="{{ incident_type_list_url }}">Types d'observations</a></li>
+            {% if user.is_authenticated %}
+              <li><a class="dropdown-item" href="{% url 'logout' %}">Se déconnecter</a></li>
+            {% endif %}
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+

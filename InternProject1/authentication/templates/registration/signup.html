@@ -1,0 +1,35 @@
+{% extends 'FlashReports/Base/base.html' %}
+
+{% block content %}
+<form action="" class="row g-3">
+    {% csrf_token %}
+    <div class="col-12">
+      <label for="inputAddress2" class="form-label">Nom complet</label>
+      <input type="text" class="form-control" id="inputAddress2">
+    </div>
+    <div class="col-md-6">
+      <label for="inputEmail4" class="form-label">Email</label>
+      <input type="email" class="form-control" id="inputEmail4">
+    </div>
+    <div class="col-md-6">
+      <label for="inputPassword4" class="form-label">Mot de pass</label>
+      <input type="password" class="form-control" id="inputPassword4">
+    </div>
+    <div class="col-12">
+      <label for="inputAddress" class="form-label">Confirmation du mot de pass</label>
+      <input type="text" class="form-control" id="inputAddress">
+    </div>
+
+    <div class="col-12">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="gridCheck">
+        <label class="form-check-label" for="gridCheck">
+          Se souvenir de moi
+        </label>
+      </div>
+    </div>
+    <div class="col-12">
+      <button type="submit" class="btn btn-primary">S'inscrire</button>
+    </div>
+</form>
+{% endblock %}

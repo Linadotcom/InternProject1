@@ -1,0 +1,34 @@
+{% extends 'FlashReports/Base/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Tout les types d'observation</h2>
+    <a href="{% url 'incident_type_create' %}" class="btn btn-primary mb-3">Ajouter un nouveau type</a>
+
+
+  {% if types %}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Types d'observations</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for type in types %}
+          <tr>
+            <td>{{ type.name }}</td>
+            <td>{{ type.description }}</td>
+            <td>
+              <a href="{% url 'incident_type_update'  type.id %}" class="btn btn-sm btn-warning">Edit</a>
+              <a href="{% url 'incident_type_delete'  type.id  %}" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Aucun type d'observation enregistré.</p>
+  {% endif %}
+</div>
+{% endblock %}

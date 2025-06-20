@@ -1,0 +1,173 @@
+{% load static %}
+{% url 'home' as home_url %}
+{% url 'Stats' as Stats_url %}
+{% url 'reports' as reports_url %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlashReport - Reports</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <a href="{{ home_url }}" class="flex items-center space-x-2">
+                    <div class="bg-blue-600 text-white p-2 rounded-lg">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-bold text-gray-900">FlashReport</span>
+                </a>
+
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="{{ home_url }}" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                    <a href="{{ Stats_url }}" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Stats</a>
+                    <a href="{{ reports_url }}" class="text-blue-600 bg-blue-50 px-3 py-2 rounded-md text-sm font-medium">Reports</a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button class="text-gray-600">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="min-h-screen bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-900">Incident Reports</h1>
+                <p class="text-gray-600 mt-2">Report incidents quickly and track their resolution status</p>
+            </div>
+
+            <!-- Success Message -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="mb-4 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-md">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Report Form -->
+                <div class="bg-white rounded-lg shadow-sm border">
+                    <div class="p-6 border-b">
+                        <h3 class="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                            <svg class="h-5 w-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                            Submit New Report
+                        </h3>
+                        <p class="text-sm text-gray-600">Quickly report any incident, damage, or irregularity in the data center</p>
+                    </div>
+                    <div class="p-6">
+                        <form method="post" action="{{ reports_url }}" class="space-y-6">
+                            {% csrf_token %}
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label for="incident-type" class="block text-sm font-medium text-gray-700 mb-2">Incident Type</label>
+                                    <select name="incident_type" id="incident-type" required class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                        <option value="">Select type</option>
+                                        <option value="equipment">Equipment Failure</option>
+                                        <option value="infrastructure">Infrastructure</option>
+                                        <option value="safety">Safety Concern</option>
+                                        <option value="security">Security Issue</option>
+                                        <option value="environmental">Environmental</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="severity" class="block text-sm font-medium text-gray-700 mb-2">Severity Level</label>
+                                    <select name="severity" id="severity" required class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                        <option value="">Select severity</option>
+                                        <option value="low">Low</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="high">High</option>
+                                        <option value="critical">Critical</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="location" class="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                                <input type="text" name="location" id="location" placeholder="e.g., Server Room A, Row 5, Rack 12" required class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+
+                            <div>
+                                <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                                <textarea name="description" id="description" placeholder="Provide a detailed description of the incident..." rows="4" required class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></textarea>
+                            </div>
+
+                            <div>
+                                <label for="reporter" class="block text-sm font-medium text-gray-700 mb-2">Reporter Name</label>
+                                <input type="text" name="reporter_name" id="reporter" placeholder="Your full name" required class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+
+                            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-150 ease-in-out flex items-center justify-center">
+                                <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                                Submit Report
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Recent Reports List -->
+                <div class="bg-white rounded-lg shadow-sm border">
+                    <div class="p-6 border-b">
+                        <h3 class="text-lg font-semibold text-gray-900">Recent Reports</h3>
+                        <p class="text-sm text-gray-600">View and track the status of recently submitted reports</p>
+                    </div>
+                    <div class="p-6">
+                        {% if recent_reports %}
+                            <div class="space-y-4">
+                                {% for report in recent_reports %}
+                                <div class="border rounded-lg p-4 hover:bg-gray-50">
+                                    <div class="flex items-start justify-between mb-3">
+                                        <div class="flex items-center gap-2">
+                                            <span class="font-mono text-sm text-blue-600">FR-{{ report.id }}</span>
+                                            <span class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded-full">{{ report.incident_type|title }}</span>
+                                            <span class="{% if report.severity == 'critical' %}bg-red-100 text-red-800{% elif report.severity == 'high' %}bg-orange-100 text-orange-800{% elif report.severity == 'medium' %}bg-yellow-100 text-yellow-800{% else %}bg-green-100 text-green-800{% endif %} text-xs font-medium px-2.5 py-0.5 rounded-full">{{ report.severity|title }}</span>
+                                        </div>
+                                        <span class="{% if report.status == 'resolved' %}bg-green-100 text-green-800{% elif report.status == 'in_progress' %}bg-blue-100 text-blue-800{% else %}bg-gray-100 text-gray-800{% endif %} text-xs font-medium px-2.5 py-0.5 rounded-full">{{ report.get_status_display }}</span>
+                                    </div>
+                                    <p class="text-gray-900 font-medium mb-2">{{ report.description|truncatewords:15 }}</p>
+                                    <div class="flex items-center justify-between text-sm text-gray-500">
+                                        <span>Reported by: {{ report.reporter_name }}</span>
+                                        <span>{{ report.created_at|date:"Y-m-d" }}</span>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="text-center py-12">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                </svg>
+                                <h3 class="mt-2 text-sm font-medium text-gray-900">No reports yet</h3>
+                                <p class="mt-1 text-sm text-gray-500">Submit your first incident report using the form on the left.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

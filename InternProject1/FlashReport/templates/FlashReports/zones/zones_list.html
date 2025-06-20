@@ -1,0 +1,41 @@
+{% extends 'FlashReports/Base/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">Liste des Zones</h2>
+
+  <a href="{% url 'zones_create' %}" class="btn btn-primary mb-3">Enregistrer un nouvelle zone</a>
+
+  {% if zones %}
+    <table class="table table-bordered">
+      <thead class="table-light">
+        <tr>
+          <th>Nom de la zone</th>
+          <th>Niveau</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for zone in zones %}
+          <div class="{% if not zone.is_active %}text-muted opacity-50{% endif %}">
+          <tr>
+            <td><strong>{{ zone.name }}</strong></td>
+            <td>{{ zone.level }}</td>
+            <td>
+              <a href="{% url 'zones_update' zone.id %}" class="btn btn-sm btn-warning">Edit</a>
+              {% if zone.is_active %}
+                <a href="{% url 'zone_disable' zone.id %}" class="btn btn-danger btn-sm">Disable</a>
+              {% else %}
+                <a href="{% url 'zone_activate' zone.id %}" class="btn btn-success btn-sm">Enable</a>
+            </td>
+          </tr>
+              {% endif %}
+          </div>
+          <hr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No zones available.</p>
+  {% endif %}
+</div>
+{% endblock %}

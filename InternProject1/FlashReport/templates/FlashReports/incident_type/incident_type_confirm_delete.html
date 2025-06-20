@@ -1,0 +1,23 @@
+{% extends "FlashReports/Base/base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header">
+      <h5 class="card-title">Supprimer ce type d'observation</h5>
+    </div>
+    <div class="card-body">
+      <p>> Etes-vous sure de vouloir supprimer type : <strong>{{ type.name }}</strong>?</p>
+    </div>
+    <div class="card-footer">
+      <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Oui, supprimer</button>
+        <a href="{% url 'incident_type_list' %}" class="btn btn-secondary">Annuler</a>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'FlashReports/Base/base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2>{{ form.instance.pk|yesno:"Edit Zone,Add Zone" }}</h2>
+  <form method="post">
+    {% csrf_token %}
+
+    <!-- Zone Name Field -->
+    <div class="mb-3">
+      <label for="id_name" class="form-label">Nom de la zone</label>
+      {{ form.name }}
+      {% if form.name.errors %}
+        <div class="text-danger">{{ form.name.errors }}</div>
+      {% endif %}
+    </div>
+
+    <!-- Level Dropdown Field -->
+
+
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+          <label for="zone" class="form-label">Niveau</label>
+          {{ form.level }}
+      </div>
+    </div>
+
+
+    <!-- Buttons -->
+    <button type="submit" class="btn btn-success">Enregistrer</button>
+    <a href="{% url 'zones_list' %}" class="btn btn-secondary">Annuler</a>
+  </form>
+</div>
+{% endblock %}

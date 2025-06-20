@@ -1,0 +1,60 @@
+{% extends 'FlashReports/Base/base.html' %}
+
+{% block content %}
+
+<!-- Title -->
+<div class="mb-5">
+    <h2 class="display-6 fw-bold">
+        détails de l'observation N° {{incident.id}}
+    </h2>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">title</th>
+      <th scope="col">zone</th>
+      <th scope="col">type</th>
+      <th scope="col">priorité</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr>
+      <td>{{ incident.id }}</td>
+      <td>{{ incident.title }}</td>
+      <td>{{ incident.zone.name }}</td>
+      <td>{{ incident.incident_type.name }}</td>
+      <td>{{ incident.severity }}</td>
+    </tr>
+
+    <tr>
+      <th>Statut</th>
+      <th>Date/heure</th>
+      <th>Description</th>
+      <th colspan="2">Image</th>
+    </tr>
+
+    <tr>
+      <td>{{ incident.status }}</td>
+      <td>{{ incident.created_at|date:"Y-m-d H:i" }}</td>
+      <td>{{incident.description}}</td>
+      <td colspan="2">
+        {% if incident.images.all %}
+            {% for image in incident.images.all %}
+            <a href="{{ image.media.url }}" download>
+                <img src="{{ image.media.url }}" alt="Image" width="80" style="margin: 2px;">
+            </a>
+            {% endfor %}
+        {% else %}
+            No images
+        {% endif %}
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<br>
+<a href="{% url 'incidents_list' %}" type="button" class="btn btn-danger">Retour</a>
+{% endblock %}
